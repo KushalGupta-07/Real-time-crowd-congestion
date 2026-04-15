@@ -1,16 +1,66 @@
-# React + Vite
+# VenueFlow — Real-time Crowd Congestion Dashboard
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A React + Vite demo application for venue operations, crowd monitoring, and mobile ordering.
 
-Currently, two official plugins are available:
+## Project Overview
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+`Real-time-crowd-congestion` simulates a venue operations dashboard with:
 
-## React Compiler
+- Live heatmap view for crowd congestion across venue zones
+- Smart routing and zone interaction for safer navigation
+- Real-time event feed with alerts, promotions, and schedule updates
+- Express ordering for food and merchandise with order tracking
+- Admin portal for traffic management, order workflow updates, and broadcast alerts
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Features
 
-## Expanding the ESLint configuration
+- **Map Dashboard**: displays zone congestion levels and allows users to select a route.
+- **Live Feed**: shows real-time alerts and venue updates.
+- **Order Express**: mock ordering experience with cart preview and status tracking.
+- **Admin Portal**: manage traffic density, update order status, and broadcast live notifications.
+- **Mock data-driven**: uses `VenueContext` for shared demo data across components.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Tech Stack
+
+- React 19
+- Vite
+- lucide-react icons
+- ESLint
+
+## Getting Started
+
+From the project root:
+
+```bash
+npm install
+npm run dev
+```
+
+Open the local URL shown by Vite to view the app.
+
+### Build
+
+```bash
+npm run build
+```
+
+### Preview
+
+```bash
+npm run preview
+```
+
+## Project Structure
+
+- `src/App.jsx` — app shell with tab navigation and admin toggle
+- `src/components/MapDashboard.jsx` — crowd heatmap and routing panel
+- `src/components/LiveFeed.jsx` — event timeline and alerts
+- `src/components/OrderExpress.jsx` — ordering flow and order status
+- `src/components/admin/` — admin portal pages and controls
+- `src/context/VenueContext.jsx` — shared mock venue state and action handlers
+
+## Notes
+
+- This repository is a UI-focused demo and does not include a backend.
+- The admin portal is accessed by clicking the shield button in the interface.
+- All data is currently mocked in React state for demonstration purposes.
