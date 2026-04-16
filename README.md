@@ -59,11 +59,6 @@ npm run preview
 - `src/components/admin/` — admin portal pages and controls
 - `src/context/VenueContext.jsx` — shared mock venue state and action handlers
 
-## Deployment
-
-- This app is designed for static hosting and can be deployed via Google Cloud.
-- Use `npm run build` to create the production build and publish it to your preferred Google Cloud hosting service.
-
 ## Project Maturity
 
 - **Adoption**: Early-stage adoption with initial usage of Google services such as Google Cloud for deployment.
