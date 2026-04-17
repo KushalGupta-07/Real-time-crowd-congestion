@@ -1,19 +1,29 @@
-import React, { useState } from 'react';
+import React, { useState, lazy, Suspense } from 'react';
 import Layout from './components/Layout';
 import MapDashboard from './components/MapDashboard';
 import OrderExpress from './components/OrderExpress';
 import LiveFeed from './components/LiveFeed';
 import { VenueProvider } from './context/VenueContext';
-import AdminDashboard from './components/admin/AdminDashboard';
+import AdminGate from './components/AdminGate';
+
+const AdminDashboard = lazy(() => import('./components/admin/AdminDashboard'));
 
 function App() {
   const [currentTab, setCurrentTab] = useState('map');
   const [isAdmin, setIsAdmin] = useState(false);
+  const [showAdminGate, setShowAdminGate] = useState(false);
+
+  const handleAdminAuthorize = () => {
+    setShowAdminGate(false);
+    setIsAdmin(true);
+  };
 
   if (isAdmin) {
     return (
       <VenueProvider>
-        <AdminDashboard onExit={() => setIsAdmin(false)} />
+        <Suspense fallback={<div className="centered-feedback">Loading admin portal…</div>}>
+          <AdminDashboard onExit={() => setIsAdmin(false)} />
+        </Suspense>
       </VenueProvider>
     );
   }
@@ -33,7 +43,12 @@ function App() {
 
   return (
     <VenueProvider>
-      <Layout currentTab={currentTab} setCurrentTab={setCurrentTab} onAdminClick={() => setIsAdmin(true)}>
+      <AdminGate
+        open={showAdminGate}
+        onClose={() => setShowAdminGate(false)}
+        onAuthorize={handleAdminAuthorize}
+      />
+      <Layout currentTab={currentTab} setCurrentTab={setCurrentTab} onAdminClick={() => setShowAdminGate(true)}>
         {renderContent()}
       </Layout>
     </VenueProvider>

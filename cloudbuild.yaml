@@ -1,0 +1,18 @@
+steps:
+  - name: 'gcr.io/cloud-builders/npm'
+    args: ['ci']
+  - name: 'gcr.io/cloud-builders/npm'
+    args: ['run', 'build']
+  - name: 'gcr.io/cloud-builders/gsutil'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        if [ -z "$_WEB_BUCKET" ]; then
+          echo "ERROR: provide _WEB_BUCKET substitution"
+          exit 1
+        fi
+        gsutil -m rsync -r dist "gs://$_WEB_BUCKET"
+substitutions:
+  _WEB_BUCKET: ''
+images: []

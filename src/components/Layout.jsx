@@ -11,8 +11,9 @@ const Layout = ({ children, currentTab, setCurrentTab, onAdminClick }) => {
 
   return (
     <div className="app-container">
-      {/* Sidebar for Desktop / Header for Mobile */}
-      <nav className="desktop-sidebar glass-panel">
+      <a href="#main-content" className="skip-link">Skip to main content</a>
+
+      <nav className="desktop-sidebar glass-panel" aria-label="Primary navigation">
         <div className="brand">
           <div className="logo-placeholder">VF</div>
           <h2 className="gradient-text mb-0">VenueFlow</h2>
@@ -22,8 +23,10 @@ const Layout = ({ children, currentTab, setCurrentTab, onAdminClick }) => {
           {tabs.map((tab) => (
             <button
               key={tab.id}
+              type="button"
               className={`nav-btn ${currentTab === tab.id ? 'active' : ''}`}
               onClick={() => setCurrentTab(tab.id)}
+              aria-current={currentTab === tab.id ? 'page' : undefined}
             >
               {tab.icon}
               <span>{tab.label}</span>
@@ -32,31 +35,39 @@ const Layout = ({ children, currentTab, setCurrentTab, onAdminClick }) => {
         </div>
         
         <div className="user-section">
-          <button className="btn-icon" onClick={onAdminClick} title="Admin Portal" style={{ color: '#ef4444' }}><ShieldAlert size={20} /></button>
-          <button className="btn-icon"><Bell size={20} /></button>
+          <button type="button" className="btn-icon" onClick={onAdminClick} title="Admin Portal" style={{ color: '#ef4444' }}>
+            <ShieldAlert size={20} />
+          </button>
+          <button type="button" className="btn-icon" title="Notifications">
+            <Bell size={20} />
+          </button>
           <div className="avatar"><User size={20} /></div>
         </div>
       </nav>
 
-      {/* Main Content Area */}
-      <main className="main-content">
+      <main id="main-content" className="main-content" tabIndex={-1}>
         <header className="mobile-header glass-panel">
           <h2 className="gradient-text mb-0">VenueFlow</h2>
           <div style={{ display: 'flex', gap: '8px' }}>
-            <button className="btn-icon" onClick={onAdminClick} style={{ color: '#ef4444' }}><ShieldAlert size={20} /></button>
-            <button className="btn-icon"><Bell size={20} /></button>
+            <button type="button" className="btn-icon" onClick={onAdminClick} style={{ color: '#ef4444' }}>
+              <ShieldAlert size={20} />
+            </button>
+            <button type="button" className="btn-icon" title="Notifications">
+              <Bell size={20} />
+            </button>
           </div>
         </header>
         {children}
       </main>
 
-      {/* Bottom Nav for Mobile */}
-      <nav className="mobile-bottom-nav glass-panel">
+      <nav className="mobile-bottom-nav glass-panel" aria-label="Secondary navigation">
         {tabs.map((tab) => (
           <button
             key={tab.id}
+            type="button"
             className={`bottom-nav-btn ${currentTab === tab.id ? 'active' : ''}`}
             onClick={() => setCurrentTab(tab.id)}
+            aria-current={currentTab === tab.id ? 'page' : undefined}
           >
             {tab.icon}
             <span className="text-xs mt-2 font-medium">{tab.label}</span>

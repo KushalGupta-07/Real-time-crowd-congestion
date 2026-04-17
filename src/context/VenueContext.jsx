@@ -1,4 +1,5 @@
 import React, { createContext, useState, useContext } from 'react';
+import { isOrderValid, sanitizeText, isValidText, isCrowdLevel } from '../utils/validators';
 
 const VenueContext = createContext();
 
@@ -13,7 +14,6 @@ export const VenueProvider = ({ children }) => {
   ]);
 
   const [orders, setOrders] = useState([]);
-  
   const [events, setEvents] = useState([
     {
       id: 1,
@@ -51,20 +51,23 @@ export const VenueProvider = ({ children }) => {
     }
   ]);
 
-  // Actions
   const updateZoneCrowd = (id, newCrowd) => {
+    if (!isCrowdLevel(newCrowd)) return;
     setZones((prev) => prev.map((z) => (z.id === id ? { ...z, crowd: newCrowd } : z)));
   };
 
   const addOrder = (orderItems, total) => {
+    if (!isOrderValid(orderItems, total)) return false;
+
     const newOrder = {
       id: Date.now(),
       items: orderItems,
       total,
-      status: 'pending', // pending, preparing, dispatched, delivered
+      status: 'pending',
       time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
     };
     setOrders((prev) => [newOrder, ...prev]);
+    return true;
   };
 
   const updateOrderStatus = (id, status) => {
@@ -72,12 +75,17 @@ export const VenueProvider = ({ children }) => {
   };
 
   const addEvent = (event) => {
+    if (!event || !isValidText(event.title) || !isValidText(event.desc)) return false;
+
     const newEvent = {
       ...event,
       id: Date.now(),
       time: 'Just Now',
+      title: sanitizeText(event.title),
+      desc: sanitizeText(event.desc),
     };
     setEvents((prev) => [newEvent, ...prev]);
+    return true;
   };
 
   return (
